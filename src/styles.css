@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+
+body {
+  margin: 0 5px;
+  font-family: Roboto, sans-serif;
+}
+
+.mat-list-base .mat-list-item.mat-2-line, .mat-list-base .mat-list-option.mat-2-line {
+  background-color: rgb(245, 245, 245) !important;
+}
+
+.mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #121212;
+}
+
+.center-align {
+  text-align: center;
+  margin: 10px auto;
+}

@@ -1,0 +1,16 @@
+<div class="center-align">
+  <h1>Scroll Component</h1>
+  <button mat-raised-button color="primary" (click)="fetch()">Fetch</button>
+</div>
+<ng-container *ngIf="(data$ | async) as data" style="margin-bottom: 30px;">
+  <mat-list role="list">
+    <mat-list-item role="listitem" *ngFor="let item of data">
+      <div matLine class="result-header">
+        {{ item.state }}
+      </div>
+      <div matLine class="result-sub-header">
+        {{ item.capital }}
+      </div>
+    </mat-list-item>
+  </mat-list>
+</ng-container>

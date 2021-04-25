@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -15,7 +15,7 @@ import { IFeatureState, getData, getLimitValue, getSkipValue } from './state/fea
   styleUrls: ['./scroll.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ScrollComponent {
+export class ScrollComponent implements OnInit {
 
   constructor(private store: Store<IFeatureState>, private dataService: DataService) {}
 
@@ -33,8 +33,11 @@ export class ScrollComponent {
     })
   );
 
+  ngOnInit(): void {
+    this.loadMore$.subscribe();
+  }
+
   fetch(): void {
     this.dataService.fetchDataAction(10, 0);
-    this.loadMore$.subscribe();
   }
 }

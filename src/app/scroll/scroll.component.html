@@ -4,7 +4,7 @@
 </div>
 <ng-container *ngIf="(data$ | async) as data" style="margin-bottom: 30px;">
   <mat-list role="list">
-    <mat-list-item role="listitem" *ngFor="let item of data">
+    <mat-list-item role="listitem" *ngFor="let item of data; trackBy: trackByIdFn">
       <div matLine class="result-header">
         {{ item.state }}
       </div>

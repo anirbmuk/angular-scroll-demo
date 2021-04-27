@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap, withLatestFrom } from 'rxjs/operators';
+import { filter, tap, withLatestFrom } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { IFeatureState, getData, getLimitValue, getSkipValue } from './state/feature.reducer';
 
 import { IData } from './../data/data.model';
+
 import { DataService } from './../data/data.service';
-import { IFeatureState, getData, getLimitValue, getSkipValue } from './state/feature.reducer';
 
 @UntilDestroy()
 @Component({
@@ -24,13 +25,10 @@ export class ScrollComponent implements OnInit {
   readonly skipValue$: Observable<number> = this.store.select(getSkipValue);
   readonly loadMore$ = this.dataService.loadMoreData$.pipe(
     untilDestroyed(this),
+    filter((loadMore: boolean) => loadMore),
     withLatestFrom(this.limitValue$),
     withLatestFrom(this.skipValue$),
-    tap(([[loadMore, limit], skip]) => {
-      if (loadMore) {
-        this.dataService.loadMoreDataAction(limit, skip);
-      }
-    })
+    tap(([[_, limit], skip]) => this.dataService.loadMoreDataAction(limit, skip))
   );
 
   ngOnInit(): void {
@@ -39,5 +37,9 @@ export class ScrollComponent implements OnInit {
 
   fetch(): void {
     this.dataService.fetchDataAction(10, 0);
+  }
+
+  trackByIdFn(_: number, data: IData): number {
+    return data.id;
   }
 }

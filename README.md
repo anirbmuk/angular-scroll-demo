@@ -5,4 +5,4 @@ Angular 11 application to demonstrate infinite scrolling with RxJs and NgRx
 https://theangularpath.anirbanblogs.com/2021/04/infinite-scrolling-using-rxjs-ngrx.html   
 
 # Preview
-![preview](img/preview.gif | width=100)   
+![preview](img/preview.gif)   

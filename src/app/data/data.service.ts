@@ -50,7 +50,7 @@ const sampleData: IData[] = [
 @Injectable()
 export class DataService {
 
-  constructor(private store: Store<IFeatureState>) {}
+  constructor(private readonly store: Store<IFeatureState>) {}
 
   readonly scrollAction$: Observable<Event> = fromEvent(document, 'scroll');
   readonly isSearched$: Observable<boolean> = this.store.select(isSearched);
@@ -77,17 +77,16 @@ export class DataService {
     })
   );
 
-  public fetchData(limit: number, skip: number): Observable<IData[]> {
-    console.log(`Fetching data between index ${skip} and ${limit}`);
+  fetchData(limit: number, skip: number): Observable<IData[]> {
     return of(sampleData.slice(skip, limit)).pipe(delay(1500), take(1));
   }
 
-  public fetchDataAction(limit: number, skip: number): void {
+  fetchDataAction(limit: number, skip: number): void {
     this.store.dispatch(appActions.toggleSpinnerAction({ loading: true }));
     this.store.dispatch(featureActions.fetchDataAction({ limit, skip }));
   }
 
-  public loadMoreDataAction(limit: number, skip: number): void {
+  loadMoreDataAction(limit: number, skip: number): void {
     this.store.dispatch(appActions.toggleSpinnerAction({ loading: true }));
     this.store.dispatch(featureActions.loadMoreDataAction({ limit, skip }));
   }

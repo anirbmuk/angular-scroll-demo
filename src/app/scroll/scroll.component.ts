@@ -18,17 +18,17 @@ import { DataService } from './../data/data.service';
 })
 export class ScrollComponent implements OnInit {
 
-  constructor(private store: Store<IFeatureState>, private dataService: DataService) {}
+  constructor(private readonly store: Store<IFeatureState>, private readonly dataService: DataService) {}
 
   readonly data$: Observable<IData[]> = this.store.select(getData);
   readonly limitValue$: Observable<number> = this.store.select(getLimitValue);
   readonly skipValue$: Observable<number> = this.store.select(getSkipValue);
+
   readonly loadMore$ = this.dataService.loadMoreData$.pipe(
     untilDestroyed(this),
     filter((loadMore: boolean) => loadMore),
-    withLatestFrom(this.limitValue$),
-    withLatestFrom(this.skipValue$),
-    tap(([[_, limit], skip]) => this.dataService.loadMoreDataAction(limit, skip))
+    withLatestFrom(this.limitValue$, this.skipValue$),
+    tap(([_, limit, skip]) => this.dataService.loadMoreDataAction(limit, skip))
   );
 
   ngOnInit(): void {
